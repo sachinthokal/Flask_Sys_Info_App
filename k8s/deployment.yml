@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sys-info-app
+  labels:
+    app: sys-info-app
+spec:
+  replicas: 3 # Number of pods to run
+  selector:
+    matchLabels:
+      app: sys-info-app
+  template:
+    metadata:
+      labels:
+        app: sys-info-app
+    spec:
+      containers:
+      - name: sys-info-app
+        image: sachinthokal/flask-sys-info-app:v1.0.0
+        ports:
+        - containerPort: 5000
