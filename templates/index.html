@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Insights Pro</title>
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --accent: #818cf8;
+            --bg: #020617;
+            --glass: rgba(30, 41, 59, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.1) 0, transparent 50%);
+            color: #f1f5f9;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        header {
+            max-width: 1400px;
+            margin: 0 auto 3rem auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-box h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* दॅशबोर्ड ग्रिड - हा आपोआप कार्ड्स ॲडजस्ट करतो */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* कार्ड स्टाईल */
+        .info-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
+        }
+
+        .card-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            word-break: break-all;
+        }
+
+        /* मेट्रिक्स बार (CPU, RAM, Disk साठी) */
+        .metric-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .metric-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            box-shadow: 0 0 10px var(--primary);
+            transition: width 1s ease-in-out;
+        }
+
+        .badge-live {
+            padding: 0.4rem 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        footer {
+            max-width: 1400px;
+            margin: 4rem auto 1rem auto;
+            padding: 1.5rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #64748b;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        footer strong {
+            color: var(--primary); /* Sachin Thokal निळ्या रंगात दिसेल */
+            font-weight: 600;
+        }
+        .footer-divider {
+            margin: 0 10px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-box">
+            <h1>SYSTEM INSIGHTS <span style="font-weight: 300;">CONSOLE</span></h1>
+            <p style="color: #64748b;">MONITORING NODE: <span style="color: orange;">{{ info['Hostname'] }}</span></p>
+        </div>
+        <div class="badge-live" style="border: 1px solid white; padding: 10px;">● System Active</div>
+    </header>
+
+    <main class="dashboard-grid">
+        {% for label, value in info.items() %}
+        <div class="info-card">
+            <span class="card-label">{{ label }}</span>
+            <span class="card-value">{{ value }}</span>
+            
+            {% if '%' in value|string %}
+            <div class="metric-bar-bg">
+                <div class="metric-bar-fill" style="width: {{ value.split('%')[0] }}%;"></div>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </main>
+
+    <footer>
+        <span>🚀 Deployed by <strong>Sachin Thokal</strong></span>
+        <span class="footer-divider">|</span>
+        <span>🏗️ Arch: {{ info['Architecture'] }}</span>
+        <span class="footer-divider">|</span>
+        <span>📅 Build: 2026.03</span>
+    </footer>
+
+    <script>
+        setTimeout(() => { location.reload(); }, 3000);
+    </script>
+</body>
+</html>

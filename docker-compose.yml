@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  sys-info:
+    build: .
+    container_name: ${APP_NAME}
+    hostname: ${APP_NAME}
+    image: ${DOCKER_USER}/flask-sys-info-app:v${APP_VERSION}
+    ports:
+      - "5000:5000"
+    restart: always
