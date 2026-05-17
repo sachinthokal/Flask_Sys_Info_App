@@ -1,45 +1,51 @@
-# 🚀 SYS-INSIGHTS DASHBOARD
+# 🚀 DevOpsVaultX - Enterprise System Console & Telemetry Dashboard
 
-A simple and premium web-based dashboard built with **Flask** and **Docker** to monitor real-time system metrics like CPU usage, RAM usage, and OS information.
+DevOpsVaultX is a premium, high-performance, web-based infrastructure observability dashboard built with **Flask** and **Docker**. It provides real-time, non-blocking telemetry data tracking core hardware specs (CPU, RAM, Disk) alongside instant DevOps toolchain environment version mapping.
 
-## 🚀 Features
+---
 
-- **Real-time Monitoring:** View CPU and RAM usage without manual refreshing.
-- **System Info:** Displays Hostname, IP Address, Boot Time, and Architecture.
-- **Dockerized:** Fully containerized for easy deployment.
-- **Premium UI:** Modern Dark Mode interface.
+## 💡 Key Upgrades & Features
+
+- **⚡ Zero-Lag Asynchronous Polling:** Replaced full-page hard refreshes with modern JS Fetch API asynchronous background polling every 3 seconds for seamless UI orchestration.
+- **🛡️ Intelligent System Health Engine:** Dynamic state processing flags the target node's status instantly between `🟢 HEALTHY`, `🟠 WARNING`, and `🔴 CRITICAL` based on metric resource thresholds.
+- **⚙️ Integrated DevOps Toolchain Audit:** Automated native sub-process scanning loops track operational versions of Docker, Kubernetes (kubectl), Terraform, Python, and Git.
+- **🪵 Production-Grade Log Rotation:** Integrated Python's `RotatingFileHandler` engine restricting runtime session logging footprints to `5MB` with a maximum 3-file backup fallback to guarantee zero disk exhaustion.
+- **🎨 Elite Glassmorphism UI:** Tailored with professional UI responsive grids, localized hardware allocation specifications, and fluid hardware-accelerated animations.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Python 3.11, Flask
-- **Metrics:** psutils library
-- **Frontend:** HTML5, CSS3 (Grid & Flexbox), JavaScript
-- **Deployment:** Docker, Docker Compose, Gunicorn
+- **Core Backend:** Python 3.11+, Flask Web Engine
+- **Telemetry Processing:** `psutil`, `platform`, `socket` subsystem modules
+- **Logging Pipeline:** Python Standard Logging with Automated Log Rotation
+- **Advanced UI Front:** Adaptive HTML5, Modern CSS3 Core Variables, Vanilla JS (Async/Await Fetch)
+- **Deployment Chain:** Docker, Docker Compose, WSGI Gunicorn Production Servers
+
+---
 
 ## 📋 Prerequisites
 
-Before running this project, ensure you have the following installed:
-
-- [Docker](https://docs.docker.com/get-docker/)
+Ensure you have the following engineering tools set up on your host machine:
+- [Docker Engine](https://docs.docker.com/get-docker/) (v20.10+)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-## 🏃 How to Run
+---
 
-### 1. Clone the repository
+## 🏃 How To Run & Deploy
 
+### 1. Bare-Metal Local Development Setup
 ```bash
-git clone https://github.com/sachinthokal/Flask_Sys_Info_App.git
+# Clone the system environment
+git clone [https://github.com/sachinthokal/Flask_Sys_Info_App.git](https://github.com/sachinthokal/Flask_Sys_Info_App.git)
 cd Flask_Sys_Info_App
-docker compose up -d --build
-```
 
-OR 🐳 Docker Hub Image
-> You can also pull the pre-built image directly from Docker Hub:
+# Create and trigger virtual workspace environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
 
-```bash
-docker pull sachinthokal/flask-sys-info-app:v1.0.0
-```
+# Install component dependencies
+pip install -r requirements.txt
 
-## 👤 Author
-
-> Sachin Thokal DevOps Engineer | Pune, India
+# Run server with real-time debug variable tracing enabled
+DEBUG=True python3 app.py
