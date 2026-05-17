@@ -3,14 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Insights Pro</title>
+    
+    <title>DevOpsVaultX - Unified Insights & Enterprise System Console</title>
+    <meta name="description" content="DevOpsVaultX offers unified infrastructure insights, real-time metrics tracking, and automated environment monitoring for modern cloud-native environments.">
+    <meta name="keywords" content="DevOpsVaultX, DevOps Dashboard, System Monitor, Infrastructure Insights, Cloud Monitoring, Automation Toolchain">
+    <meta name="author" content="Sachin Thokal">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#020617">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://devopsvaultx.com/">
+    <meta property="og:title" content="DevOpsVaultX - Unified Insights">
+    <meta property="og:description" content="Streamlined infrastructure monitoring dashboard tracking real-time CPU, RAM, Disk metrics, and toolchain configurations.">
+    <meta property="og:image" content="/assets/favicon_io/android-chrome-512x512.png">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://devopsvaultx.com/">
+    <meta property="twitter:title" content="DevOpsVaultX - Unified Insights">
+    <meta property="twitter:description" content="Streamlined infrastructure monitoring dashboard tracking real-time CPU, RAM, Disk metrics.">
+    <meta property="twitter:image" content="/assets/favicon_io/android-chrome-512x512.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="/assets/favicon_io/favicon.ico">
+
     <style>
         :root {
             --primary: #38bdf8;
             --accent: #818cf8;
             --bg: #020617;
             --glass: rgba(30, 41, 59, 0.4);
+            --glass-intense: rgba(30, 41, 59, 0.75);
             --border: rgba(255, 255, 255, 0.08);
+            
+            /* Status Colors */
+            --healthy-bg: linear-gradient(135deg, #052e16, #15803d);
+            --healthy-border: #22c55e;
+            --warning-bg: linear-gradient(135deg, #451a03, #c2410c);
+            --warning-border: #f97316;
+            --critical-bg: linear-gradient(135deg, #450a0a, #b91c1c);
+            --critical-border: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -18,157 +52,361 @@
         body {
             background-color: var(--bg);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0, transparent 50%), 
-                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.1) 0, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.12) 0, transparent 50%);
             color: #f1f5f9;
             min-height: 100vh;
-            padding: 2rem;
-        }
-
-        header {
-            max-width: 1400px;
-            margin: 0 auto 3rem auto;
             display: flex;
+        }
+
+        /* Sidebar Layout */
+        .sidebar {
+            width: 320px;
+            background: var(--glass-intense);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: center;
+            position: fixed;
+            height: 100vh;
+            z-index: 10;
+            contain: strict; /* UI Optimization */
         }
 
-        .logo-box h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Main Content Body */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 320px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
         }
 
-        /* दॅशबोर्ड ग्रिड - हा आपोआप कार्ड्स ॲडजस्ट करतो */
-        .dashboard-grid {
+        .section-title {
+            font-size: 0.9rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.4rem;
+        }
+
+        /* Performance Row Grid - Optimized for 6 Cards */
+        .metrics-hero-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
         }
 
-        /* कार्ड स्टाईल */
+        /* Card Styles */
+        .hero-card {
+            background: var(--glass-intense);
+            border: 1px solid var(--border);
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+        }
+
+        .hero-card .card-label { color: #94a3b8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hero-card .card-value { font-size: 1.6rem; font-weight: 700; margin-top: 0.5rem; color: #fff; word-break: break-all; }
+
+        /* Allocation Special Styles (Without Progress Bars) */
+        .alloc-card {
+            border-color: rgba(129, 140, 248, 0.2);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.6));
+        }
+        .alloc-card .card-value { font-size: 1.2rem; color: #cbd5e1; margin-top: auto; font-family: monospace; }
+
+        /* Dynamic Status Classes */
+        .card-healthy { background: var(--healthy-bg); border-color: var(--healthy-border); box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.2); }
+        .card-warning { background: var(--warning-bg); border-color: var(--warning-border); box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.2); }
+        .card-critical { background: var(--critical-bg); border-color: var(--critical-border); box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.2); }
+        .status-text { font-size: 1.6rem !important; line-height: 1.2; margin-top: 1rem !important; }
+
+        /* Progress Bars */
+        .metric-bar-bg { width: 100%; height: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-top: 1rem; }
+        .metric-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #fff, var(--primary)); will-change: width; }
+
+        /* Bottom Grid Layout */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
         .info-card {
             background: var(--glass);
-            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
-            border-radius: 1.5rem;
+            border-radius: 1.2rem;
             padding: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .info-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
-        }
+        .info-card .card-label { display: block; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.4rem; letter-spacing: 0.5px;}
+        .info-card .card-value { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; word-break: break-all; }
 
-        .card-label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+        @media (max-width: 1200px) {
+            .metrics-hero-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
         }
-
-        .card-value {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #fff;
-            word-break: break-all;
-        }
-
-        /* मेट्रिक्स बार (CPU, RAM, Disk साठी) */
-        .metric-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin-top: 1rem;
-        }
-
-        .metric-bar-fill {
-            height: 100%;
-            border-radius: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            box-shadow: 0 0 10px var(--primary);
-            transition: width 1s ease-in-out;
-        }
-
-        .badge-live {
-            padding: 0.4rem 1rem;
-            background: rgba(34, 197, 94, 0.1);
-            color: #4ade80;
-            border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid rgba(34, 197, 94, 0.2);
-        }
-
-        footer {
-            max-width: 1400px;
-            margin: 4rem auto 1rem auto;
-            padding: 1.5rem;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(5px);
-            border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: #64748b;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
-        footer strong {
-            color: var(--primary); /* Sachin Thokal निळ्या रंगात दिसेल */
-            font-weight: 600;
-        }
-        .footer-divider {
-            margin: 0 10px;
-            opacity: 0.3;
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; padding: 1.5rem; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-box">
-            <h1>SYSTEM INSIGHTS <span style="font-weight: 300;">CONSOLE</span></h1>
-            <p style="color: #64748b;">MONITORING NODE: <span style="color: orange;">{{ info['Hostname'] }}</span></p>
-        </div>
-        <div class="badge-live" style="border: 1px solid white; padding: 10px;">● System Active</div>
-    </header>
-
-    <main class="dashboard-grid">
-        {% for label, value in info.items() %}
-        <div class="info-card">
-            <span class="card-label">{{ label }}</span>
-            <span class="card-value">{{ value }}</span>
-            
-            {% if '%' in value|string %}
-            <div class="metric-bar-bg">
-                <div class="metric-bar-fill" style="width: {{ value.split('%')[0] }}%;"></div>
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <div class="brand" style="margin-bottom: 2.5rem;">
+                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; margin: 0;">
+                    <span style="background: linear-gradient(to right, #fff 60%, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">DevOpsVault</span><span style="color: var(--accent); text-shadow: 0 0 15px rgba(129, 140, 248, 0.6); font-weight: 900;">X</span>
+                </h1>
+                <p style="font-size: 0.7rem; color: #475569; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                    <span style="width: 6px; height: 6px; background: var(--primary); border-radius: 50%;"></span> Enterprise System Console
+                </p>
             </div>
-            {% endif %}
+            
+            <div class="node-box" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.03) 100%); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1rem; padding: 1.2rem; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--primary), transparent);"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                    <label style="font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">Target Node</label>
+                    <span style="font-family: monospace; font-size: 0.65rem; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; font-weight: bold;">ONLINE</span>
+                </div>
+                <div class="value" style="color: #fff; font-weight: 600; font-size: 1.15rem; font-family: monospace; letter-spacing: -0.5px; word-break: break-all;">
+                    {{ info['Hostname'] }}
+                </div>
+            </div>
         </div>
-        {% endfor %}
+
+        <div class="sidebar-footer" style="border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 1.5rem;">
+            <div style="border-left: 3px solid var(--primary); background: linear-gradient(90deg, rgba(56, 189, 248, 0.04) 0%, transparent 100%); padding: 0.8rem 0 0.8rem 1rem; display: flex; flex-direction: column; gap: 0.6rem;">
+                <div>
+                    <span style="display: block; font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800;">Dashboard Developed by</span>
+                    <span style="font-size: 1.05rem; color: #fff; font-weight: 600; letter-spacing: 0.5px;">
+                        Sachin <span style="color: var(--primary); text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);">Thokal</span>
+                    </span>
+                </div>
+                <div style="display: flex; gap: 16px; font-size: 0.75rem; color: #64748b; font-family: monospace;">
+                    <div><span style="color: #475569;">ARCH:</span> <span style="color: #cbd5e1;">{{ info['Architecture'] }}</span></div>
+                    <div style="color: rgba(255, 255, 255, 0.1);">|</div>
+                    <div><span style="color: #475569;">BUILD:</span> <span style="color: #cbd5e1;">{{ info['Build'] }}</span></div>
+                </div>
+                <div style="display: flex; gap: 16px; font-size: 0.75rem; color: #64748b; font-family: monospace;">
+                    <div><span style="color: #475569;">Email:</span> <span style="color: #cbd5e1;">sachinthokal1799@gmail.com</span></div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        {% set cpu = info['CPU Usage'].split('%')[0]|float if info['CPU Usage'] else 0 %}
+        {% set ram = info['RAM Usage'].split('%')[0]|float if info['RAM Usage'] else 0 %}
+        {% set disk = info['Disk Usage'].split('%')[0]|float if info['Disk Usage'] else 0 %}
+
+        <div>
+            <div class="section-title">Performance Core</div>
+            <div class="metrics-hero-grid">
+                
+                <div id="system-status-card" class="hero-card {% if cpu > 80 or ram > 80 or disk > 80 %}card-critical{% elif cpu > 70 or ram > 70 or disk > 70 %}card-warning{% else %}card-healthy{% endif %}">
+                    {% if cpu > 80 or ram > 80 or disk > 80 %}
+                        <span class="card-label" style="color: #fca5a5;">System Status</span>
+                        <div class="card-value status-text">🔴 CRITICAL</div>
+                    {% elif cpu > 70 or ram > 70 or disk > 70 %}
+                        <span class="card-label" style="color: #fed7aa;">System Status</span>
+                        <div class="card-value status-text">🟠 WARNING</div>
+                    {% else %}
+                        <span class="card-label" style="color: #bbf7d0;">System Status</span>
+                        <div class="card-value status-text">🟢 HEALTHY</div>
+                    {% endif %}
+                </div>
+
+                <div class="hero-card">
+                    <span class="card-label">CPU Usage</span>
+                    <div class="card-value" id="cpu-value">{{ info['CPU Usage'] }}</div>
+                    <div class="metric-bar-bg">
+                        <div class="metric-bar-fill" id="cpu-bar" style="width: {{ cpu }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="hero-card">
+                    <span class="card-label">RAM Usage</span>
+                    <div class="card-value" id="ram-value">{{ info['RAM Usage'] }}</div>
+                    <div class="metric-bar-bg">
+                        <div class="metric-bar-fill" id="ram-bar" style="width: {{ ram }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="hero-card alloc-card">
+                    <span class="card-label" style="color: var(--accent);">RAM Allocation</span>
+                    <div class="card-value" id="ram-alloc-value">{{ info['RAM Allocation'] }}</div>
+                </div>
+
+                <div class="hero-card">
+                    <span class="card-label">Disk Usage</span>
+                    <div class="card-value" id="disk-value">{{ info['Disk Usage'] }}</div>
+                    <div class="metric-bar-bg">
+                        <div class="metric-bar-fill" id="disk-bar" style="width: {{ disk }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="hero-card alloc-card">
+                    <span class="card-label" style="color: var(--accent);">Disk Allocation</span>
+                    <div class="card-value" id="disk-alloc-value">{{ info['Disk Allocation'] }}</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <div class="section-title">Network Configuration</div>
+            <div class="details-grid">
+                <div class="info-card">
+                    <span class="card-label">Private IP Address</span>
+                    <div class="card-value" id="private-ip-value" style="font-family: monospace; color: var(--primary);">{{ info['Private IP'] }}</div>
+                </div>
+                <div class="info-card">
+                    <span class="card-label">Active Listening Ports</span>
+                    <div class="card-value" id="listening-ports-value" style="font-family: monospace; color: orange;">{{ info['Active Listening Ports'] }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-title">DevOps Toolchain Environment</div>
+            <div class="details-grid">
+                <div class="info-card" style="border-color: rgba(56, 189, 248, 0.15);">
+                    <span class="card-label">Docker Version</span>
+                    <div class="card-value" id="docker-version-value" style="color: {% if info['Docker Version'] == 'Not Installed' %}#ef4444{% else %}#38bdf8{% endif %}; font-family: monospace;">
+                        {{ info['Docker Version'] }}
+                    </div>
+                </div>
+                <div class="info-card" style="border-color: rgba(34, 197, 94, 0.15);">
+                    <span class="card-label">Kubernetes Version</span>
+                    <div class="card-value" id="k8s-version-value" style="color: {% if info['Kubernetes CLI'] == 'Not Installed' %}#ef4444{% else %}#4ade80{% endif %}; font-family: monospace;">
+                        {{ info['Kubernetes CLI'] }}
+                    </div>
+                </div>
+                <div class="info-card" style="border-color: rgba(129, 140, 248, 0.15);">
+                    <span class="card-label">Terraform Version</span>
+                    <div class="card-value" id="terraform-version-value" style="color: {% if info['Terraform Version'] == 'Not Installed' %}#ef4444{% else %}#818cf8{% endif %}; font-family: monospace;">
+                        {{ info['Terraform Version'] }}
+                    </div>
+                </div>
+                <div class="info-card" style="border-color: rgba(129, 140, 248, 0.15);">
+                    <span class="card-label">Python Version</span>
+                    <div class="card-value" id="python-version-value" style="color: {% if info['Python Version'] == 'Not Installed' %}#ef4444{% else %}#818cf8{% endif %}; font-family: monospace;">
+                        {{ info['Python Version'] }}
+                    </div>
+                </div>
+
+                <div class="info-card" style="border-color: rgba(129, 140, 248, 0.15);">
+                    <span class="card-label">Git Version</span>
+                    <div class="card-value" id="git-version-value" style="color: {% if info['Git Version'] == 'Not Installed' %}#ef4444{% else %}#818cf8{% endif %}; font-family: monospace;">
+                        {{ info['Git Version'] }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <div class="section-title">Hardware & Environment Specifications</div>
+            <div class="details-grid">
+                {% for label, value in info.items() %}
+                    {% if label not in ['CPU Usage', 'RAM Usage', 'Disk Usage', 'RAM Allocation', 'Disk Allocation', 'Hostname', 'Architecture', 'Build', 'User', 'Private IP', 'Active Listening Ports', 'Docker Version', 'Python Version', 'Git Version', 'Kubernetes CLI', 'Terraform Version'] %}
+                    <div class="info-card">
+                        <span class="card-label">{{ label }}</span>
+                        <div class="card-value" data-spec-label="{{ label }}">{{ value }}</div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
     </main>
 
-    <footer>
-        <span>🚀 Deployed by <strong>Sachin Thokal</strong></span>
-        <span class="footer-divider">|</span>
-        <span>🏗️ Arch: {{ info['Architecture'] }}</span>
-        <span class="footer-divider">|</span>
-        <span>📅 Build: 2026.03</span>
-    </footer>
-
     <script>
-        setTimeout(() => { location.reload(); }, 3000);
+        async function updateDashboardMetrics() {
+            try {
+                const response = await fetch('/api/metrics');
+                if (!response.ok) throw new Error('API server unreachable');
+                
+                const info = await response.json();
+
+                // 1. Data Processing
+                const cpuNum = parseFloat(info['CPU Usage']?.split('%')[0]) || 0;
+                const ramNum = parseFloat(info['RAM Usage']?.split('%')[0]) || 0;
+                const diskNum = parseFloat(info['Disk Usage']?.split('%')[0]) || 0;
+
+                // 2. Direct Value Injections
+                document.getElementById('cpu-value').innerText = info['CPU Usage'] || '0%';
+                document.getElementById('ram-value').innerText = info['RAM Usage'] || '0%';
+                document.getElementById('disk-value').innerText = info['Disk Usage'] || '0%';
+                document.getElementById('ram-alloc-value').innerText = info['RAM Allocation'] || 'N/A';
+                document.getElementById('disk-alloc-value').innerText = info['Disk Allocation'] || 'N/A';
+                document.getElementById('private-ip-value').innerText = info['Private IP'] || '127.0.0.1';
+                document.getElementById('listening-ports-value').innerText = info['Active Listening Ports'] || 'None';
+
+                // 3. Toolchain Status Render Updates
+                const toolsMapping = [
+                    { id: 'docker-version-value', key: 'Docker Version' },
+                    { id: 'k8s-version-value', key: 'Kubernetes CLI' },
+                    { id: 'terraform-version-value', key: 'Terraform Version' },
+                    { id: 'python-version-value', key: 'Python Version' },
+                    { id: 'git-version-value', key: 'Git Version' }
+                ];
+                toolsMapping.forEach(tool => {
+                    const el = document.getElementById(tool.id);
+                    if (el && info[tool.key]) {
+                        el.innerText = info[tool.key];
+                        el.style.color = info[tool.key] === 'Not Installed' ? '#ef4444' : (tool.id === 'k8s-version-value' ? '#4ade80' : (tool.id === 'docker-version-value' ? '#38bdf8' : '#818cf8'));
+                    }
+                });
+
+                // 4. Progress Bars Scaling Animation
+                document.getElementById('cpu-bar').style.width = `${cpuNum}%`;
+                document.getElementById('ram-bar').style.width = `${ramNum}%`;
+                document.getElementById('disk-bar').style.width = `${diskNum}%`;
+
+                // 5. System Health Engine Checks
+                const statusCard = document.getElementById('system-status-card');
+                if (statusCard) {
+                    if (cpuNum > 80 || ramNum > 80 || diskNum > 80) {
+                        statusCard.className = 'hero-card card-critical';
+                        statusCard.innerHTML = '<span class="card-label" style="color: #fca5a5;">System Status</span><div class="card-value status-text">🔴 CRITICAL</div>';
+                    } else if (cpuNum > 70 || ramNum > 70 || diskNum > 70) {
+                        statusCard.className = 'hero-card card-warning';
+                        statusCard.innerHTML = '<span class="card-label" style="color: #fed7aa;">System Status</span><div class="card-value status-text">🟠 WARNING</div>';
+                    } else {
+                        statusCard.className = 'hero-card card-healthy';
+                        statusCard.innerHTML = '<span class="card-label" style="color: #bbf7d0;">System Status</span><div class="card-value status-text">🟢 HEALTHY</div>';
+                    }
+                }
+
+                // 6. Dynamic Specs Sync Loop
+                document.querySelectorAll('[data-spec-label]').forEach(el => {
+                    const currentLabel = el.getAttribute('data-spec-label');
+                    if (info[currentLabel]) {
+                        el.innerText = info[currentLabel];
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error tracking live core telemetry:', error);
+            }
+        }
+
+        // Run background worker loop strictly every 3 seconds seamlessly
+        setInterval(updateDashboardMetrics, 3000);
     </script>
 </body>
 </html>
