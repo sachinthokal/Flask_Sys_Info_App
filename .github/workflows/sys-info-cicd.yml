@@ -66,7 +66,7 @@ jobs:
           # TODO: Replace with your actual GitHub username and manifest repo name
           repository: 'sachinthokal/ArgoCD_For_Devops' 
           # TODO: Make sure the default GITHUB_TOKEN or your Personal Access Token (PAT) has Write permissions
-          token: ${{ secrets.GITHUBS_TOKEN }} 
+          token: ${{ secrets.GITOPS_PAT }} 
 
       # 2. Update the image tag inside your deployment manifest file using sed
       - name: Update Image Tag in Manifest
