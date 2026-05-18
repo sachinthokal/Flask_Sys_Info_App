@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           # TODO: Replace with your actual GitHub username and manifest repo name
-          repository: 'sachinthokal/ArgoCD_For_Devops/' 
+          repository: 'sachinthokal/ArgoCD_For_Devops' 
           # TODO: Make sure the default DOCKERHUB_TOKEN or your Personal Access Token (PAT) has Write permissions
           token: ${{ secrets.DOCKERHUB_TOKEN }} 
 
